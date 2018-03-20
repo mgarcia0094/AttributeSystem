@@ -76,13 +76,13 @@ namespace AttributesSystem.attributes {
 			return attr == null ? 0f : attr.Value;
 		}
 
-		public float GetAttribute<T>(ref List<Modifier> modifiers) {
+		public float GetAttributeTotalValue<T>() {
 			List<Modifier> existingModifiers = new List<Modifier>();
 
 			//loop and search  if a modifier exists
-			for(int i = 0; i < modifiers.Count; i++) {
-				if(modifiers[i].Attribute is T) {
-					existingModifiers.Add(modifiers[i]);
+			for(int i = 0; i < _modifiers.Count; i++) {
+				if(_modifiers[i].Attribute is T) {
+					existingModifiers.Add(_modifiers[i]);
 				}
 			}
 
