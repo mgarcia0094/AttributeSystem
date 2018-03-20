@@ -91,33 +91,25 @@ namespace AttributesSystem.attributes {
 			}
 
 			float finalValue = 0f;
-			float multValue = 0f;
 			float additionValue = 0f;
-			bool foundValue = false;
+			float multValue = 0f;
 
-			for(int i = 0; i < existingModifiers.Count; i++) {
-				if(existingModifiers[i].ModifierType == GameEnums.Modifier.PERCENTAGE) {
-					multValue += existingModifiers[i].Attribute.Value;
-					finalValue = GetAttributeDefaultValue<T>();
-					foundValue = true;
-				} else if(existingModifiers[i].ModifierType == GameEnums.Modifier.ADDITION) {
-					additionValue = GetAttributeDefaultValue<T>();
-					foundValue = true;
-					//first operation we add the base value
-					//next operations will only increment/decrement the value
-					if(finalValue == 0) {
-						finalValue += additionValue + existingModifiers[i].Attribute.Value;
-					} else {
-						finalValue += existingModifiers[i].Attribute.Value;
-					}
+			for(int i=0; i < existingModifiers.Count; i++) {
+				if(existingModifiers[i].ModifierType == GameEnums.Modifier.ADDITION) {
+					additionValue += existingModifiers[i].Attribute.Value;
 				}
 			}
 
-			if(finalValue == 0f && !foundValue) {
-				return finalValue = GetAttributeDefaultValue<T>();
+			for(int i=0; i < existingModifiers.Count; i++) {
+				if(existingModifiers[i].ModifierType == GameEnums.Modifier.PERCENTAGE) {
+					multValue += existingModifiers[i].Attribute.Value;
+				}
 			}
 
-			return finalValue + (finalValue * multValue);
+			float aux = GetAttributeDefaultValue<T>() + additionValue;
+			finalValue = aux + (aux*multValue);
+
+			return finalValue;
 		}
 		#endregion
 
